@@ -23,13 +23,13 @@
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch("https://bg-remover.onrender.com/remove-bg/", {
+      const res = await fetch("https://remove-bg-backend-jkcl.onrender.com/", {
         method: "POST",
         body: formData
       });
 
       const data = await res.json();
-      const imgURL = `https://bg-remover.onrender.com${data.url}`;
+      const imgURL = `https://remove-bg-backend-jkcl.onrender.com/${data.url}`;
       document.getElementById("result").innerHTML = `
         <p>Output Image:</p>
         <img src="${imgURL}" />
