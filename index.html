@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Background Remover</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 2rem; }
+    img { max-width: 300px; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Remove Image Background</h1>
+  <input type="file" id="fileInput" />
+  <button onclick="upload()">Remove Background</button>
+  <div id="result"></div>
+
+  <script>
+    async function upload() {
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
+      if (!file) return alert("Please upload a file!");
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("https://bg-remover.onrender.com/remove-bg/", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+      const imgURL = `https://bg-remover.onrender.com${data.url}`;
+      document.getElementById("result").innerHTML = `
+        <p>Output Image:</p>
+        <img src="${imgURL}" />
+        <br><a href="${imgURL}" download>Download</a>
+        <p>(Auto-deletes in 10 minutes)</p>
+      `;
+    }
+  </script>
+</body>
+</html>
